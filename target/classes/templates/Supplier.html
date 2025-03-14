@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Supplier Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="mb-4">Supplier Management</h2>
+
+        <!-- Supplier Table -->
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Contact Number</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="supplier : ${suppliers}">
+                    <td th:text="${supplier.id}"></td>
+                    <td th:text="${supplier.name}"></td>
+                    <td th:text="${supplier.contactNumber}"></td>
+                    <td th:text="${supplier.email}"></td>
+                    <td th:text="${supplier.address}"></td>
+                    <td>
+                        <a th:href="@{/suppliers/edit/{id}(id=${supplier.id})}" class="btn btn-warning btn-sm">Edit</a>
+                        <a th:href="@{/suppliers/delete/{id}(id=${supplier.id})}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Add Supplier Form -->
+        <h4 class="mt-4">Add New Supplier</h4>
+        <form th:action="@{/suppliers/save}" method="post">
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" name="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Contact Number</label>
+                <input type="text" name="contactNumber" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Address</label>
+                <input type="text" name="address" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Supplier</button>
+            </br>
+        </form>
+         </br>
+    </div>
+</body>
+</html>

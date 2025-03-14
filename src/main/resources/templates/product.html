@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+
+    <h2 class="text-center mb-4">🛒 Product Management</h2>
+
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#productList">📋 Product List</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#addProduct">➕ Add / Edit Product</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="productList" class="tab-pane fade show active">
+            <a href="#addProduct" class="btn btn-success mb-3" data-bs-toggle="tab">➕ Add Product</a>
+
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Category</th>
+                        <th>Supplier</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product : ${products}">
+                        <td th:text="${product.id}"></td>
+                        <td><img th:src="${product.imageUrl}" alt="Product Image" class="img-thumbnail" width="50"></td>
+                        <td th:text="${product.name}"></td>
+                        <td th:text="${product.price}"></td>
+                        <td th:text="${product.stockQuantity}"></td>
+                        <td th:text="${product.category.name}"></td>
+                        <td th:text="${product.supplierId}"></td>
+                        <td>
+                            <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-primary btn-sm">Edit</a>
+                            <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="addProduct" class="tab-pane fade">
+            <div class="card shadow p-4">
+                <form action="/products/add" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">Product Name:</label>
+                        <input type="text" name="name" class="form-control" placeholder="Enter product name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Price:</label>
+                        <input type="number" name="price" class="form-control" step="0.01" placeholder="Enter price (₹)" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Stock Quantity:</label>
+                        <input type="number" name="stockQuantity" class="form-control" placeholder="Enter stock quantity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Category:</label>
+                        <select name="category" class="form-select" required>
+    <option value="">-- Select a Category --</option>
+    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+</select>
+
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Product Image:</label>
+                        <input type="file" name="imageFile" class="form-control">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success px-4">✅ Save Product</button>
+                        <a href="#productList" class="btn btn-secondary px-4" data-bs-toggle="tab">❌ Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
